@@ -1,0 +1,141 @@
+﻿<Window x:Class="TM.DailyTrackR.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TM.DailyTrackR.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="TM Daily TrackR" Height="450" Width="800">
+
+
+    
+    <Window.Resources >
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Background" Value="Turquoise"></Setter>
+            <Setter Property="Height" Value="100"></Setter>
+            <Setter Property="Width" Value="200"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="BlueViolet" 
+                                BorderBrush="DarkGoldenrod" 
+                                BorderThickness="5"
+                                CornerRadius="10">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <CheckBox Margin="10"></CheckBox>
+                                <TextBlock Text="Click" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"></TextBlock>
+                                <Button> Click</Button>
+                            </StackPanel>
+                            
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+        <DataTemplate x:Key="ComboboxTemplate">  <!--  Nem tudom rátenni a comboboxra 
+            Kijavitani otthon -->
+            <StackPanel Orientation="Horizontal">
+
+                <TextBlock Text="{Binding Username}" FontSize="20" FontWeight="Bold"></TextBlock>
+                <TextBlock Text=" => " FontSize="20" FontWeight="Bold"></TextBlock>
+                <TextBlock Text="{Binding Password}" FontSize="20" FontWeight="Bold"></TextBlock>
+            </StackPanel>
+            
+        </DataTemplate> 
+    </Window.Resources>
+  <Grid>
+
+        <!--<StackPanel Orientation="Horizontal">
+            <Button Margin="5,0">Button1</Button>
+            <Button Margin="5,0">Button2</Button>
+            <Button Margin="5,0">Button3</Button>
+        </StackPanel>-->
+
+        <!--<Calendar DisplayDateEnd="2024-06-20" DisplayDateStart="2024-06-01">-->
+        <!--<Calendar DisplayMode="Decade">
+        </Calendar>-->
+
+        <!--<DatePicker SelectedDate="2024-06-06" SelectedDateFormat="Short">
+            <DatePicker.BlackoutDates >
+                <CalendarDateRange Start="2024-06-01" End="2024-06-04"></CalendarDateRange>
+            </DatePicker.BlackoutDates>
+        </DatePicker>-->
+
+
+        <!--<TabControl>
+            <TabItem Header="Calendar">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Column="0" Grid.Row="0"> Button1</Button>
+                    <Calendar Grid.Column="1" Grid.Row="1">
+                        
+                    </Calendar>
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="DatePicker">
+                <DatePicker>
+                    
+                </DatePicker>
+            </TabItem>
+        </TabControl>-->
+
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>-->
+
+        <!--<TextBox x:Name="Textbox1" > </TextBox>
+        <TextBox x:Name="TextBlock1" Grid.Row="1" Text="{Binding ElementName=Textbox1, Path=Text, UpdateSourceTrigger=Default}"> </TextBox>
+        <Button Grid.Column="1" Click="ApasaEvent">Button1</Button>-->
+
+
+        <!--<Button x:Name="Button1" Grid.Column="1" Click ="ApasaEvent" Width="500" >
+            <TextBlock x:Name="TextBlock1" Grid.Row="1" Background="Red">asdasdasfa</TextBlock>
+
+        </Button>
+        --><!--<TextBlock x:Name="TextBlock1" Grid.Row="1" Background="Red" Width="{Binding Path=Width,RelativeSource={RelativeSource AncestorType=Button}}"></TextBlock>-->
+
+        <StackPanel>
+            <!--<TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"> </TextBox>
+            <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"> </TextBox>
+            
+        <TextBlock Text="{Binding Username}" FontSize="40"></TextBlock>
+        <TextBlock Text="{Binding Password}" FontSize="40"></TextBlock>
+
+            <Button Content="{Binding Number}" Command="{Binding IncreaseNumber}"></Button>
+            <TextBlock Text="{Binding Number}" FontSize="40"></TextBlock>
+            <Button Content="NewWindow" Command="{Binding NewWindowCommand}"></Button>-->
+
+            <ComboBox  ItemsSource="{Binding ListOfNumber}"> </ComboBox>
+             <!--<ComboBox Style="{StaticResource ComboboxTemplate}" ItemsSource="{Binding ListOfUser}"> </ComboBox>-->
+            <TextBlock Text="{Binding Number}" FontSize="40"></TextBlock>
+            <Button Content="Delete Button" Command="{Binding DeleteElementFormIndex}"></Button>
+            <Button Style="{StaticResource ButtonStyle}" Content="Style Button"></Button>
+            
+            <Button Content="NewWindow" Command="{Binding NewWindowCommand}"></Button>
+
+        </StackPanel>
+      
+    </Grid>
+</Window>
