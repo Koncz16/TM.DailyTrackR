@@ -1,112 +1,115 @@
-﻿namespace TM.DailyTrackR.ViewModel
-{
-    using Prism.Commands;
-    using Prism.Mvvm;
-    using System;
-    using TM.DailyTrackR.Common;
-    using TM.DailyTrackR.Logic;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows;
+using TM.DailyTrackR.Common;
+using TM.DailyTrackR.DataType.Models;
+using TM.DailyTrackR.Logic;
 
+namespace TM.DailyTrackR.ViewModel
+{
     public class MainWindowViewModel : BindableBase
     {
-        private User user;
-        private string username;
-        private string password;
-        private int number;
-        private List<string> listOfNumber;
-
-        private List<User>  listOfUser;
-
-        public List<User> ListOfUser
+        private DateTime _selectedDate = DateTime.Now;
+        public DateTime SelectedDate
         {
-            get => listOfUser;
-            set => this.SetProperty(ref this.listOfUser, value);
+            get => _selectedDate;
+            set
+            {
+                if (SetProperty(ref _selectedDate, value))
+                {
+                    LoadData();
+                    UpdateActivitiesDateText();
+                }
+            }
         }
 
-        public List<string> ListOfNumber
+        private string _activitiesDateText;
+        public string ActivitiesDateText
         {
-            get => listOfNumber;
-            set => this.SetProperty(ref this.listOfNumber, value);
+            get => _activitiesDateText;
+            set => SetProperty(ref _activitiesDateText, value);
         }
 
-
-        public int Number
+        private ObservableCollection<ActivityModel> _dailyActivities = new ObservableCollection<ActivityModel>();
+        public ObservableCollection<ActivityModel> DailyActivities
         {
-            get => number;
-            set => this.SetProperty(ref this.number, value);
+            get => _dailyActivities;
+            set => SetProperty(ref _dailyActivities, value);
         }
 
+        private ObservableCollection<ActivityModel> _activitiesForAll = new ObservableCollection<ActivityModel>();
+        public ObservableCollection<ActivityModel> ActivitiesForAll
+        {
+            get => _activitiesForAll;
+            set => SetProperty(ref _activitiesForAll, value);
+        }
+
+        public DelegateCommand AddNewActivityCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand CreateCommand { get; }
 
         public MainWindowViewModel()
         {
-            // LogicHelper.Instance.ExampleController.GetDataExample();
-            //LogicHelper.Instance.ExampleController.InsertProjectType();
-            // LogicHelper.Instance.ExampleController.InsertNewActivity();
-            this.listOfNumber = new List<string>
+            DeleteCommand = new DelegateCommand(DeleteExecute);
+            CreateCommand = new DelegateCommand(NewWindowExecute);
+            AddNewActivityCommand = new DelegateCommand(NewWindowExecute);
+
+            LoadData();
+        }
+
+        private void DeleteExecute()
+        {
+            if (SelectedActivity == null)
+                return;
+
+            var result = MessageBox.Show("Are you sure you want to delete this item?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
             {
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                    "6",
-            };
-            this.listOfUser = new List<User>{
-                new User { Username = "Ana", Password = "pita" },
-                new User { Username = "Mihai", Password = "zvxvzx" },
-                new User { Username = "Simon", Password = "asda" },
-                new User { Username = "Ellaa", Password = "qwerqwr" }
-            };
-
-            this.user = new User { Username = "Ana", Password = "pita" };
-            this.username = this.user.Username;
-            this.password = this.user.Password;
-            IncreaseNumber = new DelegateCommand(IncreaseNumberExecute, IncreaseNumberCanExecute);
-            NewWindowCommand = new DelegateCommand(NewWindowExecute);
-            DeleteElementFormIndex = new DelegateCommand(DeleteElementFormIndexExecute);
-
+                var res = LogicHelper.Instance.ExampleController.DeleteActivity(SelectedActivity.Id);
+                if (res == 0)
+                {
+                    DailyActivities.Remove(SelectedActivity);
+                    MessageBox.Show("Item deleted successfully.", "Delete", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
         }
-
-     
-
-        public DelegateCommand IncreaseNumber { get; }
-        public DelegateCommand NewWindowCommand { get; }
-        public DelegateCommand DeleteElementFormIndex { get; }
-
-        public string Username
-        {
-            get => this.username;
-            set => this.SetProperty<string>(ref this.username, value);
-        }
-        public string Password
-        {
-            get => this.password;
-            set => this.SetProperty<string>(ref this.password, value);
-
-        }
-
-        private void IncreaseNumberExecute() => Number++;
-
-        //private bool IncreaseNumberCanExecute()
-        //{
-        //    if( this.number < 5)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
-        private bool IncreaseNumberCanExecute() => this.number < 5;
-
-        private void DeleteElementFormIndexExecute()
-        {
-            this.listOfNumber.RemoveAt(2);
-        }
-
 
         private void NewWindowExecute()
         {
-            ViewService.Instance.ShowWindow(new AddDataViewModel());
+            ViewService.Instance.ShowWindow(new NewActivityViewModel());
         }
-      
 
+        private void LoadData()
+        {
+            LoadDataForUser(SelectedDate);
+            LoadDataForAllUser(SelectedDate);
+        }
+
+        private void LoadDataForAllUser(DateTime date)
+        {
+            var data = LogicHelper.Instance.ExampleController.GetAllActivities(date);
+            ActivitiesForAll = new ObservableCollection<ActivityModel>(data);
+        }
+
+        private void LoadDataForUser(DateTime date)
+        {
+            var data = LogicHelper.Instance.ExampleController.GetUserActivities(date);
+            DailyActivities = new ObservableCollection<ActivityModel>(data);
+        }
+
+        private void UpdateActivitiesDateText()
+        {
+            ActivitiesDateText = $"Activities Date: {SelectedDate.ToString("dd.MM.yyyy")}";
+        }
+
+        private ActivityModel _selectedActivity;
+        public ActivityModel SelectedActivity
+        {
+            get => _selectedActivity;
+            set => SetProperty(ref _selectedActivity, value);
+        }
     }
 }

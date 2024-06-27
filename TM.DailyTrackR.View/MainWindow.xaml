@@ -4,138 +4,129 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TM.DailyTrackR.View"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="TM Daily TrackR" Height="450" Width="800">
+        Title="TM Daily TrackR" Height="450" Width="1000">
 
 
-    
-    <Window.Resources >
-        <Style TargetType="Button" x:Key="ButtonStyle">
-            <Setter Property="Background" Value="Turquoise"></Setter>
-            <Setter Property="Height" Value="100"></Setter>
-            <Setter Property="Width" Value="200"></Setter>
-            <Setter Property="Foreground" Value="Black"></Setter>
-            <Setter Property="Margin" Value="10"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="FontSize" Value="20"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="BlueViolet" 
-                                BorderBrush="DarkGoldenrod" 
-                                BorderThickness="5"
-                                CornerRadius="10">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <CheckBox Margin="10"></CheckBox>
-                                <TextBlock Text="Click" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"></TextBlock>
-                                <Button> Click</Button>
-                            </StackPanel>
-                            
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding DeleteCommand}" Key="Delete" Modifiers="Ctrl"/>
+        <KeyBinding Command="{Binding CreateCommand}" Key="n" Modifiers="Control"/>
+        <KeyBinding Command="{Binding CreateCommand}" Key="N" Modifiers="Control"/>
+    </Window.InputBindings>
 
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="DarkSlateGray"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
-        <DataTemplate x:Key="ComboboxTemplate">  <!--  Nem tudom rátenni a comboboxra 
-            Kijavitani otthon -->
-            <StackPanel Orientation="Horizontal">
-
-                <TextBlock Text="{Binding Username}" FontSize="20" FontWeight="Bold"></TextBlock>
-                <TextBlock Text=" => " FontSize="20" FontWeight="Bold"></TextBlock>
-                <TextBlock Text="{Binding Password}" FontSize="20" FontWeight="Bold"></TextBlock>
-            </StackPanel>
-            
-        </DataTemplate> 
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="WhiteSmoke"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="WhiteSmoke"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Background" Value="WhiteSmoke"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Teal"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
     </Window.Resources>
-  <Grid>
-
-        <!--<StackPanel Orientation="Horizontal">
-            <Button Margin="5,0">Button1</Button>
-            <Button Margin="5,0">Button2</Button>
-            <Button Margin="5,0">Button3</Button>
-        </StackPanel>-->
-
-        <!--<Calendar DisplayDateEnd="2024-06-20" DisplayDateStart="2024-06-01">-->
-        <!--<Calendar DisplayMode="Decade">
-        </Calendar>-->
-
-        <!--<DatePicker SelectedDate="2024-06-06" SelectedDateFormat="Short">
-            <DatePicker.BlackoutDates >
-                <CalendarDateRange Start="2024-06-01" End="2024-06-04"></CalendarDateRange>
-            </DatePicker.BlackoutDates>
-        </DatePicker>-->
 
 
-        <!--<TabControl>
-            <TabItem Header="Calendar">
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Button Grid.Column="0" Grid.Row="0"> Button1</Button>
-                    <Calendar Grid.Column="1" Grid.Row="1">
-                        
-                    </Calendar>
-                </Grid>
-
-            </TabItem>
-            <TabItem Header="DatePicker">
-                <DatePicker>
-                    
-                </DatePicker>
-            </TabItem>
-        </TabControl>-->
-
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+    <Grid Background="Gainsboro" Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>-->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <!--<TextBox x:Name="Textbox1" > </TextBox>
-        <TextBox x:Name="TextBlock1" Grid.Row="1" Text="{Binding ElementName=Textbox1, Path=Text, UpdateSourceTrigger=Default}"> </TextBox>
-        <Button Grid.Column="1" Click="ApasaEvent">Button1</Button>-->
+        <TextBlock Text="TM Daily TrackR" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" Grid.Row="0"/>
 
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
 
-        <!--<Button x:Name="Button1" Grid.Column="1" Click ="ApasaEvent" Width="500" >
-            <TextBlock x:Name="TextBlock1" Grid.Row="1" Background="Red">asdasdasfa</TextBlock>
+            <Calendar x:Name="ActivityCalendar" Grid.Column="0" SelectedDate="{Binding SelectedDate, Mode=TwoWay}" DisplayDate="{x:Static sys:DateTime.Now}">
+                <Calendar.LayoutTransform>
+                    <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                </Calendar.LayoutTransform>
+            </Calendar>
 
-        </Button>
-        --><!--<TextBlock x:Name="TextBlock1" Grid.Row="1" Background="Red" Width="{Binding Path=Width,RelativeSource={RelativeSource AncestorType=Button}}"></TextBlock>-->
-
-        <StackPanel>
-            <!--<TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"> </TextBox>
-            <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"> </TextBox>
-            
-        <TextBlock Text="{Binding Username}" FontSize="40"></TextBlock>
-        <TextBlock Text="{Binding Password}" FontSize="40"></TextBlock>
-
-            <Button Content="{Binding Number}" Command="{Binding IncreaseNumber}"></Button>
-            <TextBlock Text="{Binding Number}" FontSize="40"></TextBlock>
-            <Button Content="NewWindow" Command="{Binding NewWindowCommand}"></Button>-->
-
-            <ComboBox  ItemsSource="{Binding ListOfNumber}"> </ComboBox>
-             <!--<ComboBox Style="{StaticResource ComboboxTemplate}" ItemsSource="{Binding ListOfUser}"> </ComboBox>-->
-            <TextBlock Text="{Binding Number}" FontSize="40"></TextBlock>
-            <Button Content="Delete Button" Command="{Binding DeleteElementFormIndex}"></Button>
-            <Button Style="{StaticResource ButtonStyle}" Content="Style Button"></Button>
-            
-            <Button Content="NewWindow" Command="{Binding NewWindowCommand}"></Button>
-
-        </StackPanel>
-      
+            <TabControl Grid.Column="1">
+                <TabItem Header="Daily">
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock FontSize="15" Text="{Binding ActivitiesDateText}" TextAlignment="Left" Margin="5,0"/>
+                            <Button x:Name="AddNewActivityButton" Command="{Binding AddNewActivityCommand}" Content="➕" FontSize="15" Height="31" Width="31" Margin="5,0"/>
+                        </DockPanel>
+                        <Grid>
+                            <DataGrid x:Name="DailyDataGrid" RowHeight="30" ItemsSource="{Binding DailyActivities}" CanUserAddRows="False" AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" SelectedItem="{Binding SelectedActivity}" CurrentCellChanged="CurrentCellChanged">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Create CTRL + N" Command="{Binding CreateCommand}" />
+                                        <MenuItem Header="Delete DEL" Command="{Binding DeleteCommand}" />
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="*" Header="No." Binding="{Binding Id}"/>
+                                    <DataGridTextColumn Width="*" Header="Project Type" Binding="{Binding ProjectTypeDescription}"/>
+                                    <DataGridTextColumn Width="*" Header="Task Type" Binding="{Binding ActivityTypeId	}"/>
+                                    <DataGridTextColumn Width="2*" Header="Description" Binding="{Binding Description}"/>
+                                    <DataGridTextColumn Width="*" Header="Status" Binding="{Binding StatusId}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Overview">
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock FontSize="15" Text="{Binding ActivitiesDateText}" TextAlignment="Left" Margin="5,0"/>
+                        </DockPanel>
+                        <Grid>
+                            <DataGrid x:Name="OverviewDataGrid" ItemsSource="{Binding ActivitiesForAll}" CanUserAddRows="False" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="*" Header="No." Binding="{Binding Id}"/>
+                                    <DataGridTextColumn Width="*" Header="Project Type" Binding="{Binding ProjectTypeDescription}"/>
+                                    <DataGridTextColumn Width="2*" Header="Description" Binding="{Binding Description}"/>
+                                    <DataGridTextColumn Width="*" Header="Status" Binding="{Binding StatusId}"/>
+                                    <DataGridTextColumn Width="*" Header="User" Binding="{Binding UserName}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        <DockPanel>
+                            <TextBlock Margin="10">Export activity in</TextBlock>
+                            <StackPanel Margin="10">
+                                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="5">
+                                    <TextBlock Name="textBlock" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                </Border>
+                                <Calendar x:Name="SelectorCalendar" SelectionMode="MultipleRange" SelectedDatesChanged="SelectedDatesChanged"/>
+                            </StackPanel>
+                            <TextBlock Margin="10"> period of time.</TextBlock>
+                            <Button Width="30"  Height="30"  Click="ExportToFile" VerticalAlignment="Top" Content="⬇️" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                        </DockPanel>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </Window>
