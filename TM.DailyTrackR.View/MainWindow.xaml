@@ -7,8 +7,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="TM Daily TrackR" Height="450" Width="1000">
-
+        Title="TM Daily TrackR" Height="750" Width="1000">
 
     <Window.InputBindings>
         <KeyBinding Command="{Binding DeleteCommand}" Key="Delete" Modifiers="Ctrl"/>
@@ -49,7 +48,6 @@
         </Style>
     </Window.Resources>
 
-
     <Grid Background="Gainsboro" Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -79,7 +77,7 @@
                             <Button x:Name="AddNewActivityButton" Command="{Binding AddNewActivityCommand}" Content="➕" FontSize="15" Height="31" Width="31" Margin="5,0"/>
                         </DockPanel>
                         <Grid>
-                            <DataGrid x:Name="DailyDataGrid" RowHeight="30" ItemsSource="{Binding DailyActivities}" CanUserAddRows="False" AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" SelectedItem="{Binding SelectedActivity}" CurrentCellChanged="CurrentCellChanged">
+                            <DataGrid x:Name="DailyDataGrid" RowHeight="30"  Height="240" ItemsSource="{Binding DailyActivities}" CanUserAddRows="False"  LoadingRow="DailyDataGrid_LoadingRow" AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" SelectedItem="{Binding SelectedActivity}" CurrentCellChanged="CurrentCellChanged">
                                 <DataGrid.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Create CTRL + N" Command="{Binding CreateCommand}" />
@@ -87,9 +85,8 @@
                                     </ContextMenu>
                                 </DataGrid.ContextMenu>
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Width="*" Header="No." Binding="{Binding Id}"/>
                                     <DataGridTextColumn Width="*" Header="Project Type" Binding="{Binding ProjectTypeDescription}"/>
-                                    <DataGridTextColumn Width="*" Header="Task Type" Binding="{Binding ActivityTypeId	}"/>
+                                    <DataGridTextColumn Width="*" Header="Task Type" Binding="{Binding ActivityTypeId}"/>
                                     <DataGridTextColumn Width="2*" Header="Description" Binding="{Binding Description}"/>
                                     <DataGridTextColumn Width="*" Header="Status" Binding="{Binding StatusId}"/>
                                 </DataGrid.Columns>
@@ -103,9 +100,8 @@
                             <TextBlock FontSize="15" Text="{Binding ActivitiesDateText}" TextAlignment="Left" Margin="5,0"/>
                         </DockPanel>
                         <Grid>
-                            <DataGrid x:Name="OverviewDataGrid" ItemsSource="{Binding ActivitiesForAll}" CanUserAddRows="False" AutoGenerateColumns="False">
+                            <DataGrid x:Name="OverviewDataGrid" RowHeight="30" Height="240" ItemsSource="{Binding ActivitiesForAll}" LoadingRow="DailyDataGrid_LoadingRow" CanUserAddRows="False" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Width="*" Header="No." Binding="{Binding Id}"/>
                                     <DataGridTextColumn Width="*" Header="Project Type" Binding="{Binding ProjectTypeDescription}"/>
                                     <DataGridTextColumn Width="2*" Header="Description" Binding="{Binding Description}"/>
                                     <DataGridTextColumn Width="*" Header="Status" Binding="{Binding StatusId}"/>
@@ -114,15 +110,33 @@
                             </DataGrid>
                         </Grid>
                         <DockPanel>
-                            <TextBlock Margin="10">Export activity in</TextBlock>
-                            <StackPanel Margin="10">
+                            <!-- Szöveg és Border a DockPanel tetején -->
+                            <StackPanel DockPanel.Dock="Top" Margin="10">
+                                <TextBlock Margin="10">Export activity in</TextBlock>
                                 <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="5">
                                     <TextBlock Name="textBlock" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                 </Border>
-                                <Calendar x:Name="SelectorCalendar" SelectionMode="MultipleRange" SelectedDatesChanged="SelectedDatesChanged"/>
                             </StackPanel>
-                            <TextBlock Margin="10"> period of time.</TextBlock>
-                            <Button Width="30"  Height="30"  Click="ExportToFile" VerticalAlignment="Top" Content="⬇️" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+
+                            <!-- Grid a DockPanel közepén -->
+                            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Bal oldal: Calendar -->
+                                    <Calendar x:Name="SelectorCalendar" SelectionMode="MultipleRange" SelectedDatesChanged="SelectedDatesChanged"/>
+
+                                    <!-- Jobb oldal: Letöltési gombok -->
+                                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10">
+                                        <Button Width="35" Height="35" Click="ExportToFile" VerticalAlignment="Top" Content="⬇️" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left" Margin="5"/>
+                                        <Button Width="120" Height="35" Click="ExportToCsv" VerticalAlignment="Top" Content="Export to CSV" FontSize="14" FontWeight="Bold" Margin="5"/>
+                                        <Button Width="120" Height="35" Click="ExportToExcel" VerticalAlignment="Top" Content="Export to Excel" FontSize="14" FontWeight="Bold" Margin="5"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
                         </DockPanel>
                     </StackPanel>
                 </TabItem>
