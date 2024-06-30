@@ -23,6 +23,12 @@
             DataContext = new MainWindowViewModel();
         }
 
+        private void ShowPieChartWindow(object sender, RoutedEventArgs e)
+        {
+            PieChartWindow pieChartWindow = new PieChartWindow();
+            pieChartWindow.Show();
+        }
+
         private void DailyDataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             e.Row.Header = (e.Row.GetIndex() + 1).ToString();

@@ -49,46 +49,7 @@ namespace TM.DailyTrackR.Logic
     }
 
 
-       //public int GetUserActivities(DateTime date)
-       // {
-       //     string procedureName = "tm.GetActivitiesForUserBySpecificDate";
-
-       //     using (SqlConnection connection = new SqlConnection(connectionString))
-
-       //         try
-       //         {
-       //             using (SqlCommand command = new SqlCommand(procedureName, connection))
-       //             {
-       //                 command.CommandType = CommandType.StoredProcedure;
-       //                 connection.Open();
-
-       //                 command.Parameters.AddWithValue("@UserName", this.userName);
-       //                 command.Parameters.AddWithValue("@SpecificDate", date);
-
-                 
-
-       //                 SqlDataReader reader = command.ExecuteReader();
-       //                 Dictionary<int, string> result = new Dictionary<int, string>();
-       //                 while (reader.Read())
-       //                 {
-       //                     //ActivityModel activityModel = new ActivityModel {
-       //                     //    ProjectTypeDescription =(string) reader["ProjectTypeDescription"],
-       //                     //    ActivityType_Id = (int)reader[
-
-       //                     //};
-       //                     result.Add((int)reader["project_type_id"], (string)reader["activity_description"]);
-       //                 }
-       //             }
-       //         }
-       //         catch (Exception ex)
-       //         {
-       //             Console.WriteLine("An error occurred: " + ex.Message);
-       //             return -1;
-       //         }
-
-       //     return 0;
-       // }
-
+  
         public int InsertProjectType()
         {
             string procedureName = "tm.InsertNewProjectType";
@@ -366,6 +327,54 @@ namespace TM.DailyTrackR.Logic
 
         }
 
+
+        public List<ActivityModel> GetUserAllActivities(string username)
+        {
+            string getDailyTaskProcedure = "tm.GetAllActivitiesForUser";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(getDailyTaskProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        connection.Open();
+                        command.Parameters.AddWithValue("@UserName", username  );
+
+                        SqlDataReader reader = command.ExecuteReader();
+                        Console.WriteLine("Request Succefull");
+
+                        List<ActivityModel> activities = new();
+                        while (reader.Read())
+                        {
+                            Console.WriteLine(reader[0]);
+                            ActivityModel activity = new ActivityModel
+                            {
+                                Id = (int)reader["id"],
+                                Description = (string)reader["activity_description"],
+                                ProjectTypeDescription = (string)reader["project_type_description"],
+                                UserName = this.userName,
+                                ActivityTypeId = (TaskTypeEnum)(int)reader["activity_type_id"],
+                                StatusId = (StatusEnum)(int)reader["status_id"]
+                            };
+                            activities.Add(activity);
+                        }
+                        Console.WriteLine(activities.Count);
+
+                        return activities;
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                    return new List<ActivityModel>();
+                }
+            }
+
+        }
 
     }
 }
