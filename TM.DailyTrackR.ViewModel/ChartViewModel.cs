@@ -26,7 +26,7 @@ namespace TM.DailyTrackR.ViewModel
 
         private void LoadData()
         {
-            var data = LogicHelper.Instance.ExampleController.GetUserAllActivities("User Z");
+            var data = LogicHelper.Instance.ExampleController.GetUserAllActivities("User A");
 
             var groupedData = data.GroupBy(a => a.ProjectTypeDescription)
                                   .Select(g => new ProjectTypeData

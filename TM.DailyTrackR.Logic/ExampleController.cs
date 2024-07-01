@@ -14,7 +14,7 @@ namespace TM.DailyTrackR.Logic
   {
     string connectionString = @"Server=.\TM_DAILY_TRACKR;Database=TRACKR_DATA;Integrated Security=true;";
 
-        string userName = "User Z";
+        string userName = "User A";
     public int GetDataExample()
     {
        string procedureName = "tm.GetAllProjectTypes";
@@ -195,7 +195,7 @@ namespace TM.DailyTrackR.Logic
 
 
 
-        public List<ActivityModel> GetUserActivities(DateTime date)
+        public List<ActivityModel> GetUserActivities(string username, DateTime date)
         {
             string getDailyTaskProcedure = "tm.GetActivitiesForUserBySpecificDate";
 
@@ -207,7 +207,7 @@ namespace TM.DailyTrackR.Logic
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         connection.Open();
-                        command.Parameters.AddWithValue("@UserName", this.userName);
+                        command.Parameters.AddWithValue("@UserName", username);
                         command.Parameters.AddWithValue("@SpecificDate", date);
                  
                         SqlDataReader reader = command.ExecuteReader();
@@ -354,7 +354,7 @@ namespace TM.DailyTrackR.Logic
                                 Id = (int)reader["id"],
                                 Description = (string)reader["activity_description"],
                                 ProjectTypeDescription = (string)reader["project_type_description"],
-                                UserName = this.userName,
+                                UserName = username,
                                 ActivityTypeId = (TaskTypeEnum)(int)reader["activity_type_id"],
                                 StatusId = (StatusEnum)(int)reader["status_id"]
                             };
@@ -375,6 +375,49 @@ namespace TM.DailyTrackR.Logic
             }
 
         }
+
+        public UserModel GetUserByName(string username)
+        {
+            string getDailyTaskProcedure = "tm.FindUserByName"; 
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(getDailyTaskProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@UserName", username);
+
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        if (reader.Read()) 
+                        {
+                            UserModel userModel = new UserModel
+                            {
+                                Id = (int)reader["id"],
+                                Name = (string)reader["name"],
+                                Password = (string)reader["password"],
+                                RoleId = (RoleEnum)(int)reader["role_id"]
+                            };
+
+                            return userModel;
+                        }
+                        else
+                        {
+                            return new UserModel();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                    return new UserModel(); 
+                }
+            }
+        }
+
 
     }
 }

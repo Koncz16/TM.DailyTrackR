@@ -20,7 +20,6 @@
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
         }
 
         private void ShowPieChartWindow(object sender, RoutedEventArgs e)

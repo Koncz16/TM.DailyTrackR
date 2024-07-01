@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using DocumentFormat.OpenXml.Drawing.Spreadsheet;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
@@ -51,14 +52,33 @@ namespace TM.DailyTrackR.ViewModel
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand CreateCommand { get; }
 
-        public MainWindowViewModel()
+        private string _loggedInUserName;
+        public string LoggedInUserName
         {
+            get { return _loggedInUserName; }
+            set { SetProperty(ref _loggedInUserName, value); }
+        }
+
+        private int _loggedInRoleId;
+        public int LoggedInRoleId
+        {
+            get { return _loggedInRoleId; }
+            set { SetProperty(ref _loggedInRoleId, value); }
+        }
+
+
+
+        public MainWindowViewModel(string userName, int roleId)
+        {
+            LoggedInUserName = userName;
+            LoggedInRoleId = roleId;
             DeleteCommand = new DelegateCommand(DeleteExecute);
             CreateCommand = new DelegateCommand(NewWindowExecute);
             AddNewActivityCommand = new DelegateCommand(NewWindowExecute);
 
             LoadData();
         }
+
 
         private void DeleteExecute()
         {
@@ -96,7 +116,7 @@ namespace TM.DailyTrackR.ViewModel
 
         private void LoadDataForUser(DateTime date)
         {
-            var data = LogicHelper.Instance.ExampleController.GetUserActivities(date);
+            var data = LogicHelper.Instance.ExampleController.GetUserActivities(LoggedInUserName, date);
             DailyActivities = new ObservableCollection<ActivityModel>(data);
         }
 

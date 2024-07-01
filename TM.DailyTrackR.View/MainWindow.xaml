@@ -93,7 +93,7 @@
                             </DataGrid>
 
                         </Grid>
-                        <Button Content="Show Project Types Pie Chart" Click="ShowPieChartWindow" />
+                        <Button Width="250" Content="Show Project Types Pie Chart" Click="ShowPieChartWindow" />
 
                     </StackPanel>
                 </TabItem>

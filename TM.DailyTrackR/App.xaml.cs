@@ -20,8 +20,12 @@
             ViewService.Instance.RegisterView(typeof(MainWindowViewModel), typeof(MainWindow));
             ViewService.Instance.RegisterView(typeof(AddDataViewModel), typeof(AddDataWindow));
             ViewService.Instance.RegisterView(typeof(NewActivityViewModel), typeof(NewActivityWindow));
-            ViewService.Instance.ShowDialog(new MainWindowViewModel());
+            ViewService.Instance.RegisterView(typeof(ChartViewModel), typeof(PieChartWindow));
+            ViewService.Instance.RegisterView(typeof(LoginViewModel), typeof(LoginWindow));
+            ViewService.Instance.ShowDialog(new MainWindowViewModel("User A", 1));
+            //ViewService.Instance.ShowDialog(new LoginViewModel());
 
+
+        }
     }
-  }
 }
